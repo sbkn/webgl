@@ -8,7 +8,7 @@ export default class InitWebGL {
 	}
 
 	start() {
-		let canvas = document.getElementById("glcanvas");
+		const canvas = document.getElementById("glcanvas");
 
 		this.gl = InitWebGL.initWebGL(canvas);
 

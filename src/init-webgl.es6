@@ -3,7 +3,7 @@ let gl;
 export default class InitWebGL {
 
 	start() {
-		var canvas = document.getElementById("glcanvas");
+		let canvas = document.getElementById("glcanvas");
 
 		gl = this.initWebGL(canvas);
 
@@ -24,10 +24,10 @@ export default class InitWebGL {
 		gl = null;
 
 		try {
-
 			gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 		}
 		catch (e) {
+			console.error(e);
 		}
 
 		if (!gl) {
@@ -39,4 +39,6 @@ export default class InitWebGL {
 	}
 }
 
-document.onload = new InitWebGL().start();
+document.addEventListener("DOMContentLoaded", function () {
+	new InitWebGL().start();
+}, false);

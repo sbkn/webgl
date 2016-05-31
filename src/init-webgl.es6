@@ -1,27 +1,32 @@
-let gl;
 
 export default class InitWebGL {
+
+	constructor() {
+		this.gl = null;
+
+		this.start();
+	}
 
 	start() {
 		let canvas = document.getElementById("glcanvas");
 
-		gl = this.initWebGL(canvas);
+		this.gl = InitWebGL.initWebGL(canvas);
 
-		if (gl) {
-			gl.viewport(0, 0, canvas.width, canvas.height);
+		if (this.gl) {
+			this.gl.viewport(0, 0, canvas.width, canvas.height);
 
-			gl.clearColor(0.0, 0.0, 0.0, 1.0);
+			this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-			gl.enable(gl.DEPTH_TEST);
+			this.gl.enable(this.gl.DEPTH_TEST);
 
-			gl.depthFunc(gl.LEQUAL);
+			this.gl.depthFunc(this.gl.LEQUAL);
 
-			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+			this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		}
 	}
 
-	initWebGL(canvas) {
-		gl = null;
+	static initWebGL(canvas) {
+		let gl = null;
 
 		try {
 			gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
@@ -40,5 +45,5 @@ export default class InitWebGL {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-	new InitWebGL().start();
+	new InitWebGL();
 }, false);

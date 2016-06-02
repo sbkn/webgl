@@ -2,13 +2,12 @@
 export default class InitWebGL {
 
 	constructor() {
-		this.gl = null;
 
-		this.start();
+		this.gl = null;
 	}
 
 	start() {
-		const canvas = document.getElementById("glcanvas");
+		const canvas = document.getElementById("canvas");
 
 		this.gl = InitWebGL.initWebGL(canvas);
 
@@ -45,5 +44,5 @@ export default class InitWebGL {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-	new InitWebGL();
+	new InitWebGL().start();
 }, false);

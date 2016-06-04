@@ -42,7 +42,3 @@ export default class InitWebGL {
 		return gl;
 	}
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-	new InitWebGL().start();
-}, false);

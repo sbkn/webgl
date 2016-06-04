@@ -1,0 +1,23 @@
+{
+  "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+  "bail": true,
+  "verbose": false,
+  "unmockedModulePathPatterns": [
+	"<rootDir>/node_modules/babel-runtime"
+  ],
+  "modulePathIgnorePatterns": [
+	"<rootDir>/node_modules/"
+  ],
+  "moduleFileExtensions": [
+	"js",
+	"es6"
+  ],
+  "testFileExtensions": [
+	"test.js",
+	"test.es6"
+  ],
+  "globals": {
+	"DEBUG": true
+  },
+  "testDirectoryName": "test"
+}

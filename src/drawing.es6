@@ -1,4 +1,4 @@
-export default class InitWebGL {
+export default class Drawing {
 
 	constructor() {
 
@@ -8,38 +8,33 @@ export default class InitWebGL {
 	start() {
 		const canvas = document.getElementById("canvas");
 
-		this.gl = InitWebGL.initWebGL(canvas);
+		this.gl = Drawing.initWebGL(canvas);
 
 		if (!this.gl) {
 			return null;
 		}
 
 		this.gl.viewport(0, 0, canvas.width, canvas.height);
-
 		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
 		this.gl.enable(this.gl.DEPTH_TEST);
-
 		this.gl.depthFunc(this.gl.LEQUAL);
-
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-		const fshader = InitWebGL.handleFragmentShader(this.gl);
+		const fshader = Drawing.createFragmentShader(this.gl);
 
-		const vshader = InitWebGL.handleVertexShader(this.gl);
+		const vshader = Drawing.createVertexShader(this.gl);
 
-		const program = InitWebGL.linkShaderToProgram(this.gl, fshader, vshader);
+		const program = Drawing.linkShaderToProgram(this.gl, fshader, vshader);
 
-		InitWebGL.validateAndUseProgram(this.gl, program);
+		Drawing.validateAndUseProgram(this.gl, program);
 
-		const vattrib = InitWebGL.findPposReference(this.gl, program);
+		const vattrib = Drawing.findPposReference(this.gl, program);
 
-		const buffer = InitWebGL.createAndBindBuffer(this.gl);
+		Drawing.createAndBindBuffer(this.gl);
 
-		InitWebGL.putVerticesIntoBuffer(this.gl, vattrib);
+		Drawing.putVerticesIntoBuffer(this.gl, vattrib);
 
-		InitWebGL.drawObject(this.gl);
-
+		Drawing.drawObject(this.gl);
 	}
 
 	static initWebGL(canvas) {
@@ -60,7 +55,7 @@ export default class InitWebGL {
 		return gl;
 	}
 
-	static handleFragmentShader(gl) {
+	static createFragmentShader(gl) {
 
 		const fshader = gl.createShader(gl.FRAGMENT_SHADER);
 		gl.shaderSource(fshader, "void main(void) {gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);}");
@@ -74,7 +69,7 @@ export default class InitWebGL {
 		return fshader;
 	}
 
-	static handleVertexShader(gl) {
+	static createVertexShader(gl) {
 
 		const vshader = gl.createShader(gl.VERTEX_SHADER);
 		gl.shaderSource(vshader, "attribute vec2 ppos; void main(void){ gl_Position = vec4(ppos.x, ppos.y, 0.0, 1.0);}");
@@ -141,6 +136,6 @@ export default class InitWebGL {
 	static drawObject(gl) {
 
 		gl.drawArrays(gl.TRIANGLES, 0, 3);
-		gl.flush()
+		gl.flush();
 	}
 }

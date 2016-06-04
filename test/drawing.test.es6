@@ -1,10 +1,10 @@
-import InitWebGL from "../src/init-webgl.es6";
+import Drawing from "../src/drawing.es6";
 
-jest.unmock("../src/init-webgl.es6");
+jest.unmock("../src/drawing.es6");
 
-describe("InitWebGL", () => {
+describe("Drawing", () => {
 
-	describe("#initWebGL", () => {
+	describe("#Drawing", () => {
 
 		it("should fetch canvas gl context properly", () => {
 
@@ -15,7 +15,7 @@ describe("InitWebGL", () => {
 			};
 
 			const expected = "gl";
-			const result = InitWebGL.initWebGL(canvas);
+			const result = Drawing.initWebGL(canvas);
 
 			expect(result).toBe(expected);
 		});
@@ -31,7 +31,7 @@ describe("InitWebGL", () => {
 			};
 
 			const expected = "gl";
-			const result = InitWebGL.initWebGL(canvas);
+			const result = Drawing.initWebGL(canvas);
 
 			expect(result).toBe(expected);
 		});
@@ -45,7 +45,7 @@ describe("InitWebGL", () => {
 			};
 
 			const expected = null;
-			const result = InitWebGL.initWebGL(canvas);
+			const result = Drawing.initWebGL(canvas);
 
 			expect(result).toBe(expected);
 		});

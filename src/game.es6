@@ -1,4 +1,4 @@
-import InitWebGL from "./init-webgl.es6";
+import Drawing from "./drawing.es6";
 
 export default class Game {
 
@@ -8,7 +8,7 @@ export default class Game {
 
 	startGame() {
 
-		new InitWebGL().start();
+		new Drawing().start();
 	}
 }
 

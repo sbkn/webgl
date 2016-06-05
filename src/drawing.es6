@@ -3,6 +3,7 @@ export default class Drawing {
 	constructor() {
 
 		this.gl = null;
+		this.running = false;
 	}
 
 	start() {
@@ -35,6 +36,23 @@ export default class Drawing {
 		Drawing.putVerticesIntoBuffer(this.gl, vattrib);
 
 		Drawing.drawObject(this.gl);
+
+		// TODO: use window.requestAnimationFrame() instead:
+		this.running = true;
+		setTimeout(() => {
+			this.draw();
+		}, 40);
+	}
+
+	draw() {
+		if (!this.running || !this.gl)
+			return null;
+
+		this.gl.clearColor(0.0, 0.0, 0.5, 1.0);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);
+		this.gl.flush();
 	}
 
 	static initWebGL(canvas) {

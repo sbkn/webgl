@@ -8,7 +8,7 @@ export default class Game {
 
 	startGame() {
 
-		new Drawing().start();
+		new Drawing().runGfx();
 	}
 }
 

@@ -1,3 +1,5 @@
+import Init from "./init.es6";
+
 export default class Drawing {
 
 	constructor() {
@@ -6,11 +8,10 @@ export default class Drawing {
 		this.running = false;
 	}
 
-	start() {
+	runGfx() {
 		const canvas = document.getElementById("canvas");
 
-		this.gl = Drawing.initWebGL(canvas);
-
+		this.gl = Init.initWebGL(canvas);
 		if (!this.gl) {
 			return null;
 		}
@@ -21,84 +22,50 @@ export default class Drawing {
 		this.gl.depthFunc(this.gl.LEQUAL);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-		const fshader = Drawing.createFragmentShader(this.gl);
-
-		const vshader = Drawing.createVertexShader(this.gl);
-
-		const program = Drawing.linkShaderToProgram(this.gl, fshader, vshader);
-
-		Drawing.validateAndUseProgram(this.gl, program);
-
-		const vattrib = Drawing.findPposReference(this.gl, program);
-
-		Drawing.createAndBindBuffer(this.gl);
-
-		Drawing.putVerticesIntoBuffer(this.gl, vattrib);
-
-		Drawing.drawObject(this.gl);
+		this.fshader = Init.createFragmentShader(this.gl);
+		this.vshader = Init.createVertexShader(this.gl);
 
 		// TODO: use window.requestAnimationFrame() instead:
 		this.running = true;
-		setTimeout(() => {
-			this.draw();
-		}, 40);
+		let frame = 0;
+		setInterval(() => {
+			this.draw(frame);
+			frame++;
+		}, 400);
 	}
 
-	draw() {
+	/**
+	 * Main drawing loop
+	 * @param frame
+	 * @returns {null}
+	 */
+	draw(frame) {
 		if (!this.running || !this.gl)
 			return null;
 
-		this.gl.clearColor(0.0, 0.0, 0.5, 1.0);
+		frame % 2 ? this.gl.clearColor(0.3, 0.3, 0.6, 1.0) : this.gl.clearColor(0.6, 0.1, 0.1, 1.0);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+		/** TRIANGLE **/
+		const triangleCoords = [0.0, 0.5, -0.5, -0.5, 0.5, -0.5];
+		Drawing.createShape(this.gl, this.fshader, this.vshader, triangleCoords);
+
+		/** SQUARE **/
+		const squareCoords = [-0.5, -0.1, -0.6, -0.6, 0.4, -0.2];
+		Drawing.createShape(this.gl, this.fshader, this.vshader, squareCoords);
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);
 		this.gl.flush();
 	}
 
-	static initWebGL(canvas) {
-		let gl = null;
+	static createShape(gl, fshader, vshader, coords) {
 
-		try {
-			gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-		}
-		catch (e) {
-			console.error(e);
-		}
-
-		if (!gl) {
-			console.error("Unable to initialize WebGL. Your browser may not support it.");
-			gl = null;
-		}
-
-		return gl;
-	}
-
-	static createFragmentShader(gl) {
-
-		const fshader = gl.createShader(gl.FRAGMENT_SHADER);
-		gl.shaderSource(fshader, "void main(void) {gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);}");
-		gl.compileShader(fshader);
-		if (!gl.getShaderParameter(fshader, gl.COMPILE_STATUS)) {
-
-			console.error("Error during fragment shader compilation", gl.getShaderInfoLog(fshader));
-			return null;
-		}
-
-		return fshader;
-	}
-
-	static createVertexShader(gl) {
-
-		const vshader = gl.createShader(gl.VERTEX_SHADER);
-		gl.shaderSource(vshader, "attribute vec2 ppos; void main(void){ gl_Position = vec4(ppos.x, ppos.y, 0.0, 1.0);}");
-		gl.compileShader(vshader);
-		if (!gl.getShaderParameter(vshader, gl.COMPILE_STATUS)) {
-
-			console.error("Error during vertex shader compilation", gl.getShaderInfoLog(vshader));
-			return null;
-		}
-
-		return vshader;
+		const program = Drawing.linkShaderToProgram(gl, fshader, vshader);
+		Drawing.validateAndUseProgram(gl, program);
+		const vattrib = Drawing.findPposReference(gl, program);
+		Drawing.createAndBindBuffer(gl);
+		Drawing.putVerticesIntoBuffer(gl, vattrib, coords);
+		Drawing.drawObject(gl);
 	}
 
 	static linkShaderToProgram(gl, fshader, vshader) {
@@ -144,16 +111,15 @@ export default class Drawing {
 		return vbuffer;
 	}
 
-	static putVerticesIntoBuffer(gl, vattrib) {
-
-		const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
-		gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-		gl.vertexAttribPointer(vattrib, 2, gl.FLOAT, false, 0, 0);
-	}
-
 	static drawObject(gl) {
 
 		gl.drawArrays(gl.TRIANGLES, 0, 3);
-		gl.flush();
+	}
+
+	static putVerticesIntoBuffer(gl, vattrib, coords) {
+
+		const vertices = new Float32Array(coords);
+		gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+		gl.vertexAttribPointer(vattrib, 2, gl.FLOAT, false, 0, 0);
 	}
 }

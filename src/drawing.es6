@@ -51,7 +51,7 @@ export default class Drawing {
 		Drawing.createShape(this.gl, this.fshader, this.vshader, triangleCoords);
 
 		/** SQUARE **/
-		const squareCoords = [-0.5, -0.1, -0.6, -0.6, 0.4, -0.2];
+		const squareCoords = [-0.5, 0.5, -0.5, -0.5, -0.1, 0.5];
 		Drawing.createShape(this.gl, this.fshader, this.vshader, squareCoords);
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);

@@ -1,6 +1,7 @@
 import Player from "../src/entities/player.es6";
 
 jest.unmock("../src/entities/player.es6");
+jest.unmock("../src/entities/unit.es6");
 
 describe("Player", () => {
 

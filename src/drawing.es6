@@ -49,7 +49,7 @@ export default class Drawing {
 
 		for (const object of objects) {
 
-			DrawingObjects.createShape(this.gl, this.fshader, this.vshader, object);
+			DrawingObjects.createShape(this.gl, this.fshader, this.vshader, object.coords);
 		}
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);

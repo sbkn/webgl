@@ -17,8 +17,8 @@ export default class Game {
 		const logic = new Logic();
 		const gfx = new Drawing();
 
-		gfx.run();
 		logic.run();
+		gfx.run();
 
 		this.gameLoop(logic, gfx);
 	}

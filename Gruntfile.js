@@ -78,6 +78,9 @@ module.exports = function (grunt) {
 			},
 			"jest-coverage": {
 				command: "node ./node_modules/jest-cli/bin/jest.js --config ./jest.json --coverage"
+			},
+			upload: {
+				command: "aws s3 sync dist/ s3://idleon.com/"
 			}
 		},
 
@@ -120,6 +123,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("release", ["eslint", "webpack:debug", "coverage", "esdoc"]);
 	grunt.registerTask("build", ["eslint", "webpack:debug", "test"]);
+	grunt.registerTask("release", ["shell:upload"]);
 	grunt.registerTask("test", ["shell:jest"]);
 	grunt.registerTask("coverage", ["shell:jest-coverage"]);
 	grunt.registerTask("default", ["build", "watch"]);

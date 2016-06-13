@@ -9,7 +9,8 @@ export default class Logic {
 	step(frame, objects) {
 
 		for (const object of objects) {
-			object.move(1, 1);
+			
+			object.move();
 		}
 	}
 }

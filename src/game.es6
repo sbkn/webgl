@@ -7,12 +7,12 @@ import Unit from "./entities/unit.es6";
 export default class Game {
 
 	startGame() {
-		this._player = new Player(0, 0, [0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
-		this._unit = new Unit(0, 0, [-0.5, 0.5, -0.5, -0.5, -0.1, 0.5]);
+
 		this.objects = [
-			this._player,
-			this._unit
+			new Player(0, 0, [0.0, 0.5, -0.5, -0.5, 0.5, -0.5]),
+			new Unit(0, 0, [-0.5, 0.5, -0.5, -0.5, -0.1, 0.5])
 		];
+		this.objects[0].setMovDir(1, 1);
 
 		const logic = new Logic();
 		const gfx = new Drawing();
@@ -30,7 +30,7 @@ export default class Game {
 			logic.step(frame, this.objects);
 			gfx.draw(frame, this.objects);
 			frame++;
-		}, 400);
+		}, 10);
 	}
 }
 

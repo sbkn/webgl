@@ -1,3 +1,5 @@
+import Collision from "../tools/collision.es6";
+
 export default class Unit {
 
 	constructor(posX, posY, coords = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]) {
@@ -6,6 +8,10 @@ export default class Unit {
 		this._facingDirection = {x: 0, y: 0};
 
 		this._coords = coords;
+		this._movSpeed = 1 / 100;
+
+		this._movX = 0;
+		this._movY = 0;
 	}
 
 	get posX() {
@@ -24,11 +30,32 @@ export default class Unit {
 		return this._coords;
 	}
 
-	move(dx, dy) {
+	setMovDir(dx, dy) {
 
 		this._facingDirection.x = dx;
 		this._facingDirection.y = dy;
-		this._pos.x += dx;
-		this._pos.y += dy;
+
+		this._movX = dx;
+		this._movY = dy;
+	}
+
+	move() {
+
+		this._pos.x += this._movX;
+		this._pos.y += this._movY;
+
+		this._coords[0] += this._movX * this._movSpeed;
+		this._coords[1] += this._movY * this._movSpeed;
+		this._coords[2] += this._movX * this._movSpeed;
+		this._coords[3] += this._movY * this._movSpeed;
+		this._coords[4] += this._movX * this._movSpeed;
+		this._coords[5] += this._movY * this._movSpeed;
+
+		if (Collision.isObjOutOfBounds(this)) {
+
+			this._movX *= -1;
+			this._movY *= -1;
+		}
+		
 	}
 }

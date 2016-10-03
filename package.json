@@ -14,7 +14,7 @@
 	"webgl"
   ],
   "author": "sbkn",
-	"license": "GPL-3.0",
+  "license": "GPL-3.0",
   "devDependencies": {
 	"babel-core": "^6.4.0",
 	"babel-eslint": "^4.1.6",

@@ -30,7 +30,6 @@ export default class Drawing {
 		this.fshader = Init.createFragmentShader(this.gl);
 		this.vshader = Init.createVertexShader(this.gl);
 
-		// TODO: use window.requestAnimationFrame() instead:
 		this.running = true;
 	}
 

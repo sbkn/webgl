@@ -9,15 +9,17 @@ export default class Game {
 
 	startGame() {
 
+		this.player = new Player(0, 0, [0.0, 0.2, -0.2, -0.2, 0.2, -0.2]);
 		this.objects = [
-			new Player(0, 0, [0.0, 0.2, -0.2, -0.2, 0.2, -0.2]),
 			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3])
 		];
-		this.objects[1].setMovDir(1, -1);
+		this.objects.forEach(e => {
+			e.setMovDir(1, -1);
+		});
 
 		const logic = new Logic();
 		const gfx = new Drawing();
-		const input = new Input(this.objects[0]);
+		const input = new Input(this.player);
 
 		logic.run();
 		gfx.run();
@@ -28,9 +30,10 @@ export default class Game {
 	gameLoop(logic, gfx, input) {
 
 		let frame = 0;
+		// TODO: use window.requestAnimationFrame() instead:
 		setInterval(() => {
-			logic.step(frame, input, this.objects);
-			gfx.draw(frame, this.objects);
+			logic.step(frame, input, this.player, this.objects);
+			gfx.draw(frame, [...this.objects, this.player]);
 			frame++;
 		}, 10);
 	}

@@ -5,16 +5,23 @@ export default class Logic {
 
 	}
 
-	step(frame, input, objects) {
+	step(frame, input, player, objects) {
 
 		const inputState = input.getKeyState();
-		Logic._handleUserInput(inputState, objects[0]);
+		Logic._handleUserInput(inputState, player);
 
-		for (const object of objects) {
+		for (const object of [...objects, player]) {
 			object.move();
 		}
 	}
 
+	/**
+	 * Transform input state into movement of player object
+	 * @param {Object} inputState Holds state of keys
+	 * @param {Object} object Object getting moved
+	 * @returns {void}
+	 * @private
+	 */
 	static _handleUserInput(inputState, object) {
 
 		let movX = 0;

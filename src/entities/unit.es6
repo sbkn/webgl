@@ -22,23 +22,20 @@ export default class Unit {
 		return this._pos.y;
 	}
 
+	get movX() {
+		return this._movX;
+	}
+
+	get movY() {
+		return this._movY;
+	}
+
 	get facingDirection() {
 		return this._facingDirection;
 	}
 
 	get coords() {
 		return this._coords;
-	}
-
-	static initCoords(coords, posX, posY) {
-		const newCoords = [];
-		newCoords.push(coords[0] + posX);
-		newCoords.push(coords[1] + posY);
-		newCoords.push(coords[2] + posX);
-		newCoords.push(coords[3] + posY);
-		newCoords.push(coords[4] + posX);
-		newCoords.push(coords[5] + posY);
-		return newCoords;
 	}
 
 	setMovDir(dx, dy) {
@@ -68,5 +65,16 @@ export default class Unit {
 			this._movY *= -1;
 		}
 		
+	}
+
+	static initCoords(coords, posX, posY) {
+		const newCoords = [];
+		newCoords.push(coords[0] + posX);
+		newCoords.push(coords[1] + posY);
+		newCoords.push(coords[2] + posX);
+		newCoords.push(coords[3] + posY);
+		newCoords.push(coords[4] + posX);
+		newCoords.push(coords[5] + posY);
+		return newCoords;
 	}
 }

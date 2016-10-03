@@ -7,7 +7,7 @@ export default class Unit {
 		this._pos = {x: posX, y: posY};
 		this._facingDirection = {x: 0, y: 0};
 
-		this._coords = coords;
+		this._coords = Unit.initCoords(coords, posX, posY);
 		this._movSpeed = 1 / 100;
 
 		this._movX = 0;
@@ -28,6 +28,17 @@ export default class Unit {
 
 	get coords() {
 		return this._coords;
+	}
+
+	static initCoords(coords, posX, posY) {
+		const newCoords = [];
+		newCoords.push(coords[0] + posX);
+		newCoords.push(coords[1] + posY);
+		newCoords.push(coords[2] + posX);
+		newCoords.push(coords[3] + posY);
+		newCoords.push(coords[4] + posX);
+		newCoords.push(coords[5] + posY);
+		return newCoords;
 	}
 
 	setMovDir(dx, dy) {

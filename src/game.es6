@@ -9,8 +9,8 @@ export default class Game {
 	startGame() {
 
 		this.objects = [
-			new Player(0, 0, [0.0, 0.5, -0.5, -0.5, 0.5, -0.5]),
-			new Unit(0, 0, [-0.5, 0.5, -0.5, -0.5, -0.1, 0.5])
+			new Player(0, 0, [0.0, 0.2, -0.2, -0.2, 0.2, -0.2]),
+			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3])
 		];
 		this.objects[0].setMovDir(1, 1);
 

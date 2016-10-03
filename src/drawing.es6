@@ -1,6 +1,8 @@
 import Init from "./init.es6";
 import DrawingObjects from "./tools/drawing-objects.es6";
 
+const BG_COLOR_SWITCH_DELAY = 500;
+
 export default class Drawing {
 
 	constructor() {
@@ -46,7 +48,7 @@ export default class Drawing {
 		if (!this._running || !this.gl)
 			return null;
 
-		if (this._timeSinceLastUpdate > 500) {
+		if (this._timeSinceLastUpdate > BG_COLOR_SWITCH_DELAY) {
 			this._timeSinceLastUpdate = 0;
 			this._currentBgColor = Drawing._toggleBgColor(this._currentBgColor);
 		} else {

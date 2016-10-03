@@ -5,7 +5,7 @@ export default class Logic {
 
 	}
 
-	step(frame, input, player, objects) {
+	step(timestamp, input, player, objects) {
 
 		const inputState = input.getKeyState();
 		Logic._handleUserInput(inputState, player);

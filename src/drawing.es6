@@ -35,15 +35,15 @@ export default class Drawing {
 
 	/**
 	 * Main drawing method
-	 * @param {number} frame Index of frame
+	 * @param {number} timeSinceLastUpdate How many ms since last draw?
 	 * @param {Array} objects Objects to draw
 	 * @returns {null}
 	 */
-	draw(frame, objects) {
+	draw(timeSinceLastUpdate, objects) {
 		if (!this.running || !this.gl)
 			return null;
 
-		frame % 13 ? this.gl.clearColor(0.3, 0.3, 0.6, 1.0) : this.gl.clearColor(0.6, 0.1, 0.1, 1.0);
+		timeSinceLastUpdate > 20 ? this.gl.clearColor(0.3, 0.3, 0.6, 1.0) : this.gl.clearColor(0.6, 0.1, 0.1, 1.0);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
 		for (const object of objects) {

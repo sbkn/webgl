@@ -6,7 +6,7 @@ export default class Drawing {
 	constructor() {
 
 		this.gl = null;
-		this.running = false;
+		this._running = false;
 	}
 
 	/**
@@ -30,20 +30,30 @@ export default class Drawing {
 		this.fshader = Init.createFragmentShader(this.gl);
 		this.vshader = Init.createVertexShader(this.gl);
 
-		this.running = true;
+		this._timeSinceLastUpdate = 0;
+		this._currentBgColor = 0;
+		this._bgColors = [[0.3, 0.3, 0.6, 1.0], [0.6, 0.1, 0.1, 1.0]];
+		this._running = true;
 	}
 
 	/**
 	 * Main drawing method
-	 * @param {number} timeSinceLastUpdate How many ms since last draw?
+	 * @param {number} timePassed How many ms since last draw?
 	 * @param {Array} objects Objects to draw
 	 * @returns {null}
 	 */
-	draw(timeSinceLastUpdate, objects) {
-		if (!this.running || !this.gl)
+	draw(timePassed, objects) {
+		if (!this._running || !this.gl)
 			return null;
 
-		timeSinceLastUpdate > 20 ? this.gl.clearColor(0.3, 0.3, 0.6, 1.0) : this.gl.clearColor(0.6, 0.1, 0.1, 1.0);
+		if (this._timeSinceLastUpdate > 500) {
+			this._timeSinceLastUpdate = 0;
+			this._currentBgColor = Drawing._toggleBgColor(this._currentBgColor);
+		} else {
+			this._timeSinceLastUpdate += timePassed;
+		}
+
+		this.gl.clearColor(...this._bgColors[this._currentBgColor]);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
 		for (const object of objects) {
@@ -53,5 +63,9 @@ export default class Drawing {
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3);
 		this.gl.flush();
+	}
+
+	static _toggleBgColor(curColor) {
+		return curColor === 0 ? 1 : 0;
 	}
 }

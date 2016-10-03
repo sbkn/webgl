@@ -19,7 +19,6 @@ export default class Input {
 	}
 
 	handleEvent(event) {
-		console.log(event.key, event.type);
 		this._inputState[event.key] = event.type;
 	}
 }

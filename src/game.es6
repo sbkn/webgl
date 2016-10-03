@@ -22,14 +22,14 @@ export default class Game {
 		logic.run();
 		gfx.run();
 
-		this.gameLoop(logic, gfx);
+		this.gameLoop(logic, gfx, input);
 	}
 
-	gameLoop(logic, gfx) {
+	gameLoop(logic, gfx, input) {
 
 		let frame = 0;
 		setInterval(() => {
-			logic.step(frame, this.objects);
+			logic.step(frame, input, this.objects);
 			gfx.draw(frame, this.objects);
 			frame++;
 		}, 10);

@@ -10,17 +10,23 @@ export default class Game {
 	startGame() {
 
 		this._lastUpdate = 0;
-		this.player = new Player(0, 0, [0.0, 0.2, -0.2, -0.2, 0.2, -0.2]);
+		this.projectiles = [];
 		this.objects = [
+			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3]),
+			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3]),
+			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3]),
+			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3]),
 			new Unit(-0.6, 0.6, [-0.3, 0.3, -0.3, -0.3, -0.1, 0.3])
 		];
+		this.player = new Player(0, 0, [0.0, 0.2, -0.2, -0.2, 0.2, -0.2], this.projectiles);
+
 		this.objects.forEach(e => {
-			e.setMovDir(1, -1);
+			e.setMovDir(Math.random(), -1 * Math.random());
 		});
 
 		const logic = new Logic();
 		const gfx = new Drawing();
-		const input = new Input(this.player);
+		const input = new Input();
 		this.logic = logic;
 		this.gfx = gfx;
 		this.input = input;
@@ -34,8 +40,8 @@ export default class Game {
 	gameLoop(timestamp) {
 
 		const timeSinceLastUpdate = timestamp - this._lastUpdate;
-		this.logic.step(timeSinceLastUpdate, this.input, this.player, this.objects);
-		this.gfx.draw(timeSinceLastUpdate, [...this.objects, this.player]);
+		this.logic.step(timeSinceLastUpdate, this.input, this.player, this.objects, this.projectiles);
+		this.gfx.draw(timeSinceLastUpdate, [...this.objects, ...this.projectiles, this.player]);
 		this._lastUpdate = timestamp;
 		window.requestAnimationFrame(this.gameLoop.bind(this));
 	}

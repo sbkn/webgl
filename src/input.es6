@@ -1,16 +1,15 @@
 export default class Input {
 
-	constructor(object) {
+	constructor() {
 
-		this._objectToMove = object;
 		this._inputState = {};
 
 		document.addEventListener('keydown', (event) => {
-			this.handleEvent(event);
+			this.handleKeyboardEvent(event);
 		});
 
 		document.addEventListener('keyup', (event) => {
-			this.handleEvent(event);
+			this.handleKeyboardEvent(event);
 		});
 	}
 
@@ -18,7 +17,7 @@ export default class Input {
 		return this._inputState;
 	}
 
-	handleEvent(event) {
+	handleKeyboardEvent(event) {
 		this._inputState[event.key] = event.type;
 	}
 }

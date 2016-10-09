@@ -27,6 +27,7 @@ export default class Logic {
 		let movX = 0;
 		let movY = 0;
 
+		// HANDLE MOVEMENT:
 		if (inputState['ArrowLeft'] === 'keydown') {
 			movX = -1;
 			if (inputState['ArrowRight'] === 'keydown') {
@@ -56,6 +57,10 @@ export default class Logic {
 			if (inputState['ArrowUp'] === 'keydown') {
 				movY = 0;
 			}
+		}
+		// HANDLE FIRING:
+		if (inputState[' '] === 'keydown') {
+			object.fire();
 		}
 
 		object.setMovDir(movX, movY);
